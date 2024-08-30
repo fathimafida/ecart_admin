@@ -1,30 +1,30 @@
 <?php
 
-namespace App\Livewire;
+// namespace App\Livewire;
 
-use Livewire\Component;
+// use Livewire\Component;
 
-class Login extends Component
-{
+// class Login extends Component
+// {
 
-    public $email, $password;
-    protected $rules=[
-        'email' => 'required|email',
-        'password' => 'required'
-    ];
-    public function login()
-    {
-        $this->validate();
-        if(  auth()->attempt(['email' => $this->email, 'password' => $this->password])){
-            return redirect('/');
+//     public $email, $password;
+//     protected $rules=[
+//         'email' => 'required|email',
+//         'password' => 'required'
+//     ];
+//     public function login()
+//     {
+//         $this->validate();
+//         if(  auth()->attempt(['email' => $this->email, 'password' => $this->password])){
+//             return redirect('/');
 
-        }
-        $this->addError('password', 'Wrong email or password');
-        return redirect()->back();
+//         }
+//         $this->addError('password', 'Wrong email or password');
+//         return redirect()->back();
 
-    }
-    public function render()
-    {
-        return view('livewire.login');
-    }
-}
+//     }
+//     public function render()
+//     {
+//         return view('livewire.login');
+//     }
+// }

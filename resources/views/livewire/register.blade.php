@@ -1,3 +1,47 @@
+
+
+
+<?php
+
+// namespace App\Livewire;
+
+use App\Models\User;
+use Livewire\Attributes\Layout;
+use Livewire\Volt\Component;
+
+new #[Layout('components.layouts.guest')] class extends Component
+{
+    public $name, $email, $password, $password_confirmation , $message;
+
+    public function register()
+    {
+        // dd($this->name, $this->email, $this->password, $this->password_confirmation);
+        $this->validate([
+        'name' => 'required',
+         'email' => 'required|email|unique:users',
+        'password' => 'required|confirmed'
+        ]);
+
+         $user = User::create([
+            'name' => $this->name,
+            'email' => $this->email,
+            'password' => bcrypt($this->password)
+        ]);
+
+        auth()->login($user);
+
+
+
+        return redirect('/ ');
+
+    }
+
+
+}
+?>
+
+
+
 <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
     <div class="mb-4">
         <h1 class="text-3xl font-bold">Register</h1>

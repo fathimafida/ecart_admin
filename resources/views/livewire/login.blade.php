@@ -1,5 +1,25 @@
+<?php
+use function Livewire\Volt\{state};
+state (['email' => '','password' => '']);
+
+$login =function () {
+    $this->validate([
+'email' => 'required|email',
+        'password' => 'required'
+    ]);
+        if(  auth()->attempt(['email' => $this->email, 'password' => $this->password])){
+            return redirect('/');
+
+        }
+        $this->addError('password', 'Wrong email or password');
+        return redirect()->back();
+};
+?>
+
+
 <div class="flex items-center justify-center h-screen">
     <div class="w-full max-w-md">
+        <h1 class="text-3xl font-bold mb-4">Login </h1>
         <form wire:submit.prevent="login" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div class="mb-4">
                 <label for="email" class="block text-sm font-bold text-gray-700">Email</label>

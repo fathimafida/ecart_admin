@@ -1,41 +1,41 @@
 <?php
 
-namespace App\Livewire;
+// namespace App\Livewire;
 
-use App\Models\User;
-use Livewire\Attributes\Layout;
-use Livewire\Component;
+// use App\Models\User;
+// use Livewire\Attributes\Layout;
+// use Livewire\Component;
 
-class Register extends Component
-{
-    public $name, $email, $password, $password_confirmation , $message;
+// class Register extends Component
+// {
+//     public $name, $email, $password, $password_confirmation , $message;
 
-    public function register()
-    {
-        // dd($this->name, $this->email, $this->password, $this->password_confirmation);
-        $this->validate([
-        'name' => 'required',
-         'email' => 'required|email|unique:users',
-        'password' => 'required|confirmed'
-        ]);
+//     public function register()
+//     {
+//         // dd($this->name, $this->email, $this->password, $this->password_confirmation);
+//         $this->validate([
+//         'name' => 'required',
+//          'email' => 'required|email|unique:users',
+//         'password' => 'required|confirmed'
+//         ]);
 
-         $user = User::create([
-            'name' => $this->name,
-            'email' => $this->email,
-            'password' => bcrypt($this->password)
-        ]);
+//          $user = User::create([
+//             'name' => $this->name,
+//             'email' => $this->email,
+//             'password' => bcrypt($this->password)
+//         ]);
 
-        auth()->login($user);
+//         auth()->login($user);
 
-        // $this->message="Your account has been created successfully. Please login to continue";
 
-        return redirect('/ ');
 
-    }
+//         return redirect('/ ');
 
-     #[Layout("components.layouts.app")]
-    public function render()
-    {
-        return view('livewire.register');
-    }
-}
+//     }
+
+//      #[Layout("components.layouts.app")]
+//     public function render()
+//     {
+//         return view('livewire.register');
+//     }
+// }
