@@ -20,6 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'image'
     ];
 
     /**
@@ -44,6 +46,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public $roles = ['admin' ,'customer','vendor'];
     public function products(){
         return $this->hasMany(Product::class);
     }
