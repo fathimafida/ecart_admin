@@ -18,6 +18,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class CategoryResource extends Resource
 {
@@ -30,8 +31,17 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 Section::make('Category Information')->schema([
-                    TextInput::make('name')->required(),
-                    TextInput::make('slug')->required(),
+                    TextInput::make('name')->required()->live(debounce:500)->afterStateUpdated(function ( $set, $state) {
+                        // Str is a facade for the Str class in Illuminate\Support\Str
+                        // Str::slug() takes the given string and generates a URL friendly "slug"
+                        $set('slug', Str::slug($state));
+                        // This is equivalent to calling $model->slug = Str::slug($state);
+                        // Where Str::slug($state) takes the given string and makes it suitable for a URL
+                        // For example, if the given string is "My Category" it will make it "my-category"
+                        // And then assignes the result to the slug attribute of the model
+
+                    }),
+                    TextInput::make('slug')->required()->readOnly()->unique(ignoreRecord:true),
                 ]),
                 Section::make('Category Image')->schema([
                     FileUpload::make('image')
@@ -46,7 +56,7 @@ class CategoryResource extends Resource
             ->columns([
                 TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('slug'),
-                TextColumn::make('image')
+                ImageColumn::make('image')
                 ])
             ->filters([
 

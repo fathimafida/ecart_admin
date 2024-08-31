@@ -7,6 +7,9 @@ use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Category;
 use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\MultiSelect;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -18,7 +21,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use Illuminate\Support\Str;
 class ProductResource extends Resource
 {
     protected static ?string $model = Product::class;
@@ -30,21 +33,23 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 Section::make('Product Information')->schema([
-                    TextInput::make('name')->required(),
-                    TextInput::make('description')->required(),
+                    TextInput::make('name')->required()->live(debounce:500)->afterStateUpdated(function ( $set, $state) {
+                        $set('slug', Str::slug($state));
+                    }),
+                    MarkdownEditor::make('description')->required(),
                     TextInput::make('price')->required(),
-                    TextInput::make('user_id'),
+                   Hidden::make('user_id')->default(auth()->id()),
                     TextInput::make('stock')->required(),
-                    TextInput::make('slug')->required(),
+                    TextInput::make('slug')->required()->readOnly()->unique(ignoreRecord:true),
                     Select::make('category_id')
                         ->label('Category')
-                        ->options(Category::all()->pluck('name', 'id'))
-                        ->required(),
-                    Select::make('tags')
+                        ->relationship('category', 'name')
+                        ->required()->searchable(),
+                    CheckboxList::make('tags')
                         ->label('Tags')
-                        ->relationship('tags', 'name')
+                        ->relationship(titleAttribute: 'name')
                         ->required(),
-                ]),
+                ])->columns(1),
             ]);
     }
 
@@ -53,12 +58,11 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')->searchable()->sortable(),
-                TextColumn::make('price'),
-                TextColumn::make('stock'),
-                TextColumn::make('slug'),
-                TextColumn::make('user_id'),
+                TextColumn::make('price')->money('INR'),
+
+                TextColumn::make('user.name'),
                 TextColumn::make('description'),
-                TextColumn::make('created_at')->dateTime()->sortable()->label('Created At'),
+
                 TextColumn::make('category.name')->searchable()->sortable()->label('Category'),
                 TextColumn::make('tags.name')->searchable()->label('Tags')->limit(30),
             ])

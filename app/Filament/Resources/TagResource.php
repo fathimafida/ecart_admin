@@ -28,7 +28,7 @@ class TagResource extends Resource
             ->schema([
                 Section::make('Tag Information')->schema([
                     TextInput::make('name')->required(),
-                    TextInput::make('slug')->required(),
+
                 ]),
 
             ]);
@@ -39,8 +39,8 @@ class TagResource extends Resource
         return $table
             ->columns([
                TextColumn::make('name')->searchable()->sortable(),
-               TextColumn::make('slug'),
-               TextColumn::make('created_at')->dateTime()->label('Joined at')->sortable(),
+
+
             ])
             ->filters([
                 //
