@@ -4,7 +4,7 @@ state (['email' => '','password' => '']);
 
 $login =function () {
     $this->validate([
-'email' => 'required|email',
+      'email' => 'required|email',
         'password' => 'required'
     ]);
         if(  auth()->attempt(['email' => $this->email, 'password' => $this->password])){

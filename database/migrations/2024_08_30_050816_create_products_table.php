@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('description')->nullable();
-
             $table->string('price',8,2);
             $table->string('stock')->default(0);
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

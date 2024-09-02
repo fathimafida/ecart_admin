@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\MultiSelect;
@@ -17,6 +18,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -37,6 +39,7 @@ class ProductResource extends Resource
                         $set('slug', Str::slug($state));
                     }),
                     MarkdownEditor::make('description')->required(),
+                    FileUpload::make('image')->image()->required(),
                     TextInput::make('price')->required(),
                    Hidden::make('user_id')->default(auth()->id()),
                     TextInput::make('stock')->required(),
@@ -62,7 +65,7 @@ class ProductResource extends Resource
 
                 TextColumn::make('user.name'),
                 TextColumn::make('description'),
-
+                ImageColumn::make('image'),
                 TextColumn::make('category.name')->searchable()->sortable()->label('Category'),
                 TextColumn::make('tags.name')->searchable()->label('Tags')->limit(30),
             ])
@@ -71,6 +74,7 @@ class ProductResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

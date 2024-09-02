@@ -13,3 +13,6 @@ Volt::route('/register','register')->name('register');
 // Route::get('/login', Login::class)->name('login');
 Volt::route('/login','login')->name('login');
 
+Volt::route('/product', 'add-product')->name('add-product');
+
+

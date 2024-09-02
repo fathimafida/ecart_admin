@@ -32,7 +32,7 @@ new #[Layout('components.layouts.guest')] class extends Component
 
 
 
-        return redirect('/ ');
+        return redirect('/');
 
     }
 
