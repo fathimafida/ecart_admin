@@ -44,7 +44,7 @@ class ProductResource extends Resource
                    Hidden::make('user_id')->default(auth()->id()),
                     TextInput::make('stock')->required(),
                     TextInput::make('slug')->required()->readOnly()->unique(ignoreRecord:true),
-                    Select::make('category_id')
+                       Select::make('category_id')
                         ->label('Category')
                         ->relationship('category', 'name')
                         ->required()->searchable(),
