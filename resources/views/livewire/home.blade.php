@@ -18,10 +18,7 @@ new class extends Component
     @foreach($products as $product)
         <div class="max-w-sm mx-auto bg-white rounded-xl shadow-md overflow-hidden">
             <div class="px-6 py-4">
-
-
-
-                <img class="h-30  w-30 object-cover rounded-2xl" src="{{ $product->image }}" alt="{{ $product->name }}"/>
+          <img class="h-30  w-30 object-cover rounded-2xl" src="{{ $product->image }}" alt="{{ $product->name }}"/>
                 <div class="font-bold text-xl mb-2">{{ $product->name }}</div>
                 <p class="text-gray-700 text-base">
                     {{ $product->description }}
