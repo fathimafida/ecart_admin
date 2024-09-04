@@ -100,5 +100,33 @@ new class extends Component
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Product</button>
     </form>
 
+    <ul id="products_id">
+        Loading.....
+        </ul>
+        <script>
+            // const ulElement = document.getElementById('products_id');
+            // inorder to take elemnt like this as it is somewhat difficult then we can simplify this by using  the id setting to $('products_id')
+            const ulElement = $('#products_id');
+            setTimeout(() => {
+                // ulElement.innerHTML = 'heeey basha';
+                // ulElement.text('heeey basha');
+                $.ajax({
+                    url: 'http://ecart_admin.test/api/products',
+                    type: 'GET',
+                    success: function (response) {
+                        console.log(response);
+                        ulElement.empty();
+
+                        response.forEach(product => {
+                            ulElement.append(`<li>${product.name}</li>`)
+                        });
+
+                    }
+                })
+            }, 2000);
+        </script>
+
+
+
 </div>
 

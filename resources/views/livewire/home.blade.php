@@ -54,7 +54,6 @@ new class extends Component
                     console.log(response);
                     ulElement.empty();
 
-
                     response.forEach(product => {
                         ulElement.append(`<li>${product.name}</li>`)
                     });
